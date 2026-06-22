@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-function Signup() {
+function Signup({ setPage }) {
   const [full_name, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
   const [ph_number, setPhone] = useState("");
 
   const handleSignup = async () => {
-    const response = await fetch("http://13.232.108.64:3000/signup", {
+    const response = await fetch("http://localhost:8000/api/signup", {     //port changed to 8000 from 3000 || LOCALHOST is important 
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,8 +22,12 @@ function Signup() {
     });
 
     const data = await response.json();
-    alert(JSON.stringify(data));
-  };
+    if (response.ok) {
+      alert("Signup Successful! Please login.");
+      setPage("login");
+    } else {
+            alert("Signup failed: "+ JSON.stringify(data));
+  } };
 
   return (
     <div className="container">

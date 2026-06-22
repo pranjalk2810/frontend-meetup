@@ -1,11 +1,11 @@
 import { useState } from "react";
 
-function Login() {
+function Login({ setIsLoggedIn }) {
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const response = await fetch("http://13.232.108.64:3000/login", {
+    const response = await fetch("http://localhost:8000/api/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,8 +20,10 @@ function Login() {
 
     if (data.token) {
       localStorage.setItem("token", data.token);
+      setIsLoggedIn(true);
       alert("Login Successful");
-    } else {
+    } 
+    else {
       alert("Login Failed");
     }
   };
