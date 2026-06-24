@@ -7,7 +7,7 @@ import Dashboard from "./pages/Dashboard";
 function App() {
   const [page, setPage] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("token") ? true : false
+    //document.cookie.includes("token=") ? true : false
   );
 
   if (isLoggedIn) {

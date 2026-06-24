@@ -16,13 +16,13 @@ function Login({ setIsLoggedIn }) {
       }),
     });
 
-    const data = await response.json();
+    //const data = await response.json();
 
-    if (data.token) {
-      localStorage.setItem("token", data.token);
+    if (response.ok) {
+      //document.cookie = `token=${data.token}; path=/; max-age=86400`;      
       setIsLoggedIn(true);
       alert("Login Successful");
-    } 
+    }
     else {
       alert("Login Failed");
     }
