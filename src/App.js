@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -6,9 +6,32 @@ import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [page, setPage] = useState("login");
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    //document.cookie.includes("token=") ? true : false
-  );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/check-auth", {
+      method: "GET",
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) {
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   if (isLoggedIn) {
     return <Dashboard setIsLoggedIn={setIsLoggedIn} />;
