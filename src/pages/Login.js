@@ -19,7 +19,7 @@ function Login({ setIsLoggedIn }) {
     //const data = await response.json();
 
     if (response.ok) {
-      //document.cookie = `token=${data.token}; path=/; max-age=86400`;      
+      //document.cookie = `token=${data.token}; path=/; max-age=86400`;       //dont use this  
       setIsLoggedIn(true);
       alert("Login Successful");
     }

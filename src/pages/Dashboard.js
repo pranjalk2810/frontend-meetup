@@ -1,4 +1,4 @@
-function Dashboard({ setIsLoggedIn }) {
+function Dashboard({ setIsLoggedIn, setPage }) {
   const logout = () => {
     document.cookie = "token=; path=/; max-age=0";
     setIsLoggedIn(false);
@@ -8,15 +8,16 @@ function Dashboard({ setIsLoggedIn }) {
     <div>
       <h1>Meetup Dashboard</h1>
 
-      <button>View Meetups</button>
-      <button>Create Meetup</button>
-      <button>Subscribed Meetups</button>
-      <button>Paid Meetups</button>
-      <button>Profile</button>
+      <button onClick={() => setPage("viewMeetups")}>View Meetups</button>
+      <button onClick={() => setPage("createMeetup")}>Create Meetup</button>
+      <button onClick={() => setPage("subscribedMeetups")}>Subscribed Meetups</button>
+      <button onClick={() => setPage("paidMeetups")}>Paid Meetups</button>
+      <button onClick={() => setPage("profile")}>Profile</button>
 
       <br /><br />
 
       <button onClick={logout}>Logout</button>
+
 
       <hr />
 

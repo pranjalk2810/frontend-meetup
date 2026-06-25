@@ -3,11 +3,14 @@ import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import CreateMeetup from "./pages/createMeetup";
+import Profile from "./pages/profile";
 
 function App() {
   const [page, setPage] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+
 
   useEffect(() => {
     fetch("/api/check-auth", {
@@ -34,8 +37,26 @@ function App() {
   }
 
   if (isLoggedIn) {
-    return <Dashboard setIsLoggedIn={setIsLoggedIn} />;
-  }
+
+      if (page === "createMeetup") {
+        return (
+          <CreateMeetup setPage={setPage}/>
+        );
+      }
+
+      if (page === "profile") {
+        return (
+          <Profile setPage={setPage}/>
+        );
+      }
+
+  return (
+    <Dashboard
+      setIsLoggedIn={setIsLoggedIn}
+      setPage={setPage}
+    />
+  );
+}
 
   return (
     <div>
