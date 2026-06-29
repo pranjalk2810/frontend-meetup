@@ -1,30 +1,33 @@
 import { useState } from "react";
 
-function Login({ setIsLoggedIn }) {
+function Login({ setIsLoggedIn, setPage }) {
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const response = await fetch("http://localhost:8000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email,
-        pwd_hash,
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:8000/api/login", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          pwd_hash,
+        }),
+      });
 
-    //const data = await response.json();
-
-    if (response.ok) {
-      //document.cookie = `token=${data.token}; path=/; max-age=86400`;       //dont use this  
-      setIsLoggedIn(true);
-      alert("Login Successful");
-    }
-    else {
-      alert("Login Failed");
+      if (response.ok) {
+        setIsLoggedIn(true);
+        setPage("dashboard");
+        alert("Login Successful");
+      } else {
+        alert("Login Failed");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Backend not running or API error");
     }
   };
 
@@ -37,6 +40,7 @@ function Login({ setIsLoggedIn }) {
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <br /><br />
 
       <input
@@ -44,6 +48,7 @@ function Login({ setIsLoggedIn }) {
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <br /><br />
 
       <button className="form-button" onClick={handleLogin}>

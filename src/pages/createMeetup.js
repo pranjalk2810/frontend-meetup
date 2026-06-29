@@ -28,7 +28,7 @@ function CreateMeetup({ setPage }) {
       return;
     }
 
-    const response = await fetch("/api/create-meetup", {
+    const response = await fetch("http://localhost:8000/api/create-meetup", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -63,9 +63,11 @@ function CreateMeetup({ setPage }) {
       {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
+      <label>Title</label>
       <input type="text" placeholder="Meetup Title" onChange={(e) => setTitle(e.target.value)} />
       <br /><br />
 
+      <label>Description</label>
       <textarea placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
       <br /><br />
 
@@ -79,15 +81,18 @@ function CreateMeetup({ setPage }) {
       <input type="datetime-local" onChange={(e) => setEndDate(e.target.value)} />
       <br /><br />
 
+      <label>Location</label>
       <input type="text" placeholder="Location" onChange={(e) => setLocation(e.target.value)} />
       <br /><br />
 
+      <label>Meetup Type</label>
       <select onChange={(e) => setMeetupType(e.target.value)}>
         <option value="free">Free</option>
         <option value="paid">Paid</option>
       </select>
       <br /><br />
 
+      <label>Price</label>
       {meetup_type === "paid" && (
         <>
           <input type="number" placeholder="Price" onChange={(e) => setPrice(e.target.value)} />
@@ -95,9 +100,11 @@ function CreateMeetup({ setPage }) {
         </>
       )}
 
+      <label>Category</label>
       <input type="text" placeholder="Category" onChange={(e) => setCategory(e.target.value)} />
       <br /><br />
 
+      <label>Max Members</label>
       <input type="number" placeholder="Max Members" onChange={(e) => setMaxMembers(e.target.value)} />
       <br /><br />
 

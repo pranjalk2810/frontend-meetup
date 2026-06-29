@@ -1,8 +1,8 @@
-function Dashboard({ setIsLoggedIn, setPage }) {
-  const logout = () => {
+function Dashboard({ setIsLoggedIn, setPage, logout }) {
+  /*const logout = () => {
     document.cookie = "token=; path=/; max-age=0";
     setIsLoggedIn(false);
-  };
+  };*/
 
   return (
     <div>
@@ -17,7 +17,6 @@ function Dashboard({ setIsLoggedIn, setPage }) {
       <br /><br />
 
       <button onClick={logout}>Logout</button>
-
 
       <hr />
 

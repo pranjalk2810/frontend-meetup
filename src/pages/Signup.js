@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Signup({ setPage }) {
+function Signup({ setIsLoggedIn, setPage }) {  
   const [full_name, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
@@ -9,6 +9,7 @@ function Signup({ setPage }) {
   const handleSignup = async () => {
     const response = await fetch("http://localhost:8000/api/signup", {     //port changed to 8000 from 3000 || LOCALHOST is important 
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -24,7 +25,8 @@ function Signup({ setPage }) {
     const data = await response.json();
     if (response.ok) {
       alert("Signup Successful! Please login.");
-      setPage("login");
+      setIsLoggedIn(true);
+      setPage("dashboard");
     } else {
             alert("Signup failed: "+ JSON.stringify(data));
   } };
