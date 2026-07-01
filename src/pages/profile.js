@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Profile({ setPage }) {
+function Profile() {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -21,7 +23,7 @@ function Profile({ setPage }) {
     <div>
       <h2>Profile</h2>
 
-      <button onClick={() => setPage("dashboard")}>
+      <button onClick={() => navigate("/dashboard")}>
         Back to Dashboard
       </button>
 

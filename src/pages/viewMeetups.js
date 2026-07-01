@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function ViewMeetups({ setPage }) {
+function ViewMeetups() {
+  const navigate = useNavigate();
   const [meetups, setMeetups] = useState([]);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ function ViewMeetups({ setPage }) {
     <div>
       <h2>All Meetups</h2>
 
-      <button onClick={() => setPage("dashboard")}>
+      <button onClick={() => navigate("/dashboard")}>
         Back to Dashboard
       </button>
 
@@ -47,9 +49,7 @@ function ViewMeetups({ setPage }) {
       ) : (
         meetups.map((meetup) => (
           <div key={meetup.meetup_id} className="card">
-            <h3>{meetup.title}</h3>     <button onClick={() => subscribeMeetup(meetup.meetup_id)}>
-              Subscribe
-            </button>
+            <h3>{meetup.title}</h3>
 
             <p><b>Description:</b> {meetup.description}</p>
             <p><b>Location:</b> {meetup.location}</p>
@@ -60,7 +60,9 @@ function ViewMeetups({ setPage }) {
             <p><b>Category:</b> {meetup.category}</p>
             <p><b>Max Members:</b> {meetup.max_members}</p>
 
-            
+            <button onClick={() => subscribeMeetup(meetup.meetup_id)}>
+              Subscribe
+            </button>
           </div>
         ))
       )}

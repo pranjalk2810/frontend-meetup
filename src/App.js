@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
+//import { useState, useEffect } from "react";
 import "./App.css";
+import React from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,6 +12,23 @@ import ViewMeetups from "./pages/viewMeetups";
 import SubscribedMeetups from "./pages/subscribedMeetups";
 
 function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<Signup />} />
+
+      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/create-meetup" element={<CreateMeetup />} />
+      <Route path="/view-meetups" element={<ViewMeetups />} />
+      <Route path="/subscribed-meetups" element={<SubscribedMeetups />} />
+      <Route path="/profile" element={<Profile />} />
+    </Routes>
+  );
+}
+
+/*function App() {
   const [page, setPage] = useState("login");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -21,7 +40,7 @@ function App() {
     })
       .then((res) => {
         if (res.ok) {
-          setIsLoggedIn(true);
+          setIsLoggedIn(true);          //comment to chekc if working
           setPage("dashboard");
         } else {
           setIsLoggedIn(false);
@@ -96,6 +115,6 @@ function App() {
       )}
     </div>
   );
-}
+}*/
 
 export default App;

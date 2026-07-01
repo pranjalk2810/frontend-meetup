@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function SubscribedMeetups({ setPage }) {
+function SubscribedMeetups() {
+  const navigate = useNavigate();
   const [meetups, setMeetups] = useState([]);
 
   useEffect(() => {
@@ -17,7 +19,7 @@ function SubscribedMeetups({ setPage }) {
     <div>
       <h2>My Subscribed Meetups</h2>
 
-      <button onClick={() => setPage("dashboard")}>
+      <button onClick={() => navigate("/dashboard")}>
         Back to Dashboard
       </button>
 

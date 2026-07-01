@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function CreateMeetup({ setPage }) {
+function CreateMeetup() {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [meetup_start_date, setStartDate] = useState("");
@@ -18,7 +21,16 @@ function CreateMeetup({ setPage }) {
     setErrorMessage("");
     setSuccessMessage("");
 
-    if (!title || !description || !meetup_start_date || !meetup_end_date || !location || !meetup_type || !category || !max_members) {
+    if (
+      !title ||
+      !description ||
+      !meetup_start_date ||
+      !meetup_end_date ||
+      !location ||
+      !meetup_type ||
+      !category ||
+      !max_members
+    ) {
       setErrorMessage("Please fill all important fields.");
       return;
     }
@@ -28,31 +40,38 @@ function CreateMeetup({ setPage }) {
       return;
     }
 
-    const response = await fetch("http://localhost:8000/api/create-meetup", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        meetup_start_date,
-        meetup_end_date,
-        location,
-        meetup_type,
-        price: meetup_type === "free" ? 0 : price,
-        category,
-        max_members
-      })
-    });
+    try {
+      const response = await fetch("http://localhost:8000/api/create-meetup", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          description,
+          meetup_start_date,
+          meetup_end_date,
+          location,
+          meetup_type,
+          price: meetup_type === "free" ? 0 : price,
+          category,
+          max_members,
+        }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      setSuccessMessage("Meetup successfully created.");
-    } else {
-      setErrorMessage(data.message || data.error || "Meetup creation failed.");
+      if (response.ok) {
+        setSuccessMessage("Meetup successfully created.");
+        alert("Meetup created successfully");
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(data.message || data.error || "Meetup creation failed.");
+      }
+    } catch (error) {
+      console.log(error);
+      setErrorMessage("Backend is not running or API URL is wrong.");
     }
   };
 
@@ -64,25 +83,47 @@ function CreateMeetup({ setPage }) {
       {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
 
       <label>Title</label>
-      <input type="text" placeholder="Meetup Title" onChange={(e) => setTitle(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Meetup Title"
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
       <br /><br />
 
       <label>Description</label>
-      <textarea placeholder="Description" onChange={(e) => setDescription(e.target.value)} />
+      <textarea
+        placeholder="Description"
+        onChange={(e) => setDescription(e.target.value)}
+      />
+
       <br /><br />
 
       <label>Start Date and Time</label>
       <br />
-      <input type="datetime-local" onChange={(e) => setStartDate(e.target.value)} />
+      <input
+        type="datetime-local"
+        onChange={(e) => setStartDate(e.target.value)}
+      />
+
       <br /><br />
 
       <label>End Date and Time</label>
       <br />
-      <input type="datetime-local" onChange={(e) => setEndDate(e.target.value)} />
+      <input
+        type="datetime-local"
+        onChange={(e) => setEndDate(e.target.value)}
+      />
+
       <br /><br />
 
       <label>Location</label>
-      <input type="text" placeholder="Location" onChange={(e) => setLocation(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Location"
+        onChange={(e) => setLocation(e.target.value)}
+      />
+
       <br /><br />
 
       <label>Meetup Type</label>
@@ -90,26 +131,42 @@ function CreateMeetup({ setPage }) {
         <option value="free">Free</option>
         <option value="paid">Paid</option>
       </select>
+
       <br /><br />
 
-      <label>Price</label>
       {meetup_type === "paid" && (
         <>
-          <input type="number" placeholder="Price" onChange={(e) => setPrice(e.target.value)} />
+          <label>Price</label>
+          <input
+            type="number"
+            placeholder="Price"
+            onChange={(e) => setPrice(e.target.value)}
+          />
+
           <br /><br />
         </>
       )}
 
       <label>Category</label>
-      <input type="text" placeholder="Category" onChange={(e) => setCategory(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Category"
+        onChange={(e) => setCategory(e.target.value)}
+      />
+
       <br /><br />
 
       <label>Max Members</label>
-      <input type="number" placeholder="Max Members" onChange={(e) => setMaxMembers(e.target.value)} />
+      <input
+        type="number"
+        placeholder="Max Members"
+        onChange={(e) => setMaxMembers(e.target.value)}
+      />
+
       <br /><br />
 
       <button onClick={handleCreateMeetup}>Create Meetup</button>
-      <button onClick={() => setPage("dashboard")}>Back</button>
+      <button onClick={() => navigate("/dashboard")}>Back</button>
     </div>
   );
 }

@@ -1,18 +1,30 @@
-function Dashboard({ setIsLoggedIn, setPage, logout }) {
-  /*const logout = () => {
-    document.cookie = "token=; path=/; max-age=0";
-    setIsLoggedIn(false);
-  };*/
+import { useNavigate } from "react-router-dom";
+
+function Dashboard() {
+  const navigate = useNavigate();
+
+  const logout = async () => {
+    try {
+      await fetch("http://localhost:8000/api/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+
+    navigate("/login");
+  };
 
   return (
     <div>
       <h1>Meetup Dashboard</h1>
 
-      <button onClick={() => setPage("viewMeetups")}>View Meetups</button>
-      <button onClick={() => setPage("createMeetup")}>Create Meetup</button>
-      <button onClick={() => setPage("subscribedMeetups")}>Subscribed Meetups</button>
-      <button onClick={() => setPage("paidMeetups")}>Paid Meetups</button>
-      <button onClick={() => setPage("profile")}>Profile</button>
+      <button onClick={() => navigate("/view-meetups")}>View Meetups</button>
+      <button onClick={() => navigate("/create-meetup")}>Create Meetup</button>
+      <button onClick={() => navigate("/subscribed-meetups")}>Subscribed Meetups</button>
+      <button onClick={() => navigate("/paid-meetups")}>Paid meetups</button>
+      <button onClick={() => navigate("/profile")}>Profile</button>
 
       <br /><br />
 

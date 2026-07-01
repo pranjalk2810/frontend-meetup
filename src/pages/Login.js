@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ setIsLoggedIn, setPage }) {
+function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
+
 
   const handleLogin = async () => {
     try {
@@ -12,16 +16,12 @@ function Login({ setIsLoggedIn, setPage }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email,
-          pwd_hash,
-        }),
+        body: JSON.stringify({ email, pwd_hash }),
       });
 
       if (response.ok) {
-        setIsLoggedIn(true);
-        setPage("dashboard");
         alert("Login Successful");
+        navigate("/dashboard");
       } else {
         alert("Login Failed");
       }
@@ -31,7 +31,10 @@ function Login({ setIsLoggedIn, setPage }) {
     }
   };
 
-  return (
+return (
+  <div>
+    <h1 style={{ textAlign: "center" }}>Welcome to Meetup</h1>
+
     <div className="container">
       <h2>Login</h2>
 
@@ -54,8 +57,27 @@ function Login({ setIsLoggedIn, setPage }) {
       <button className="form-button" onClick={handleLogin}>
         Login
       </button>
+
+      <br /><br />
+
+      <p style={{ textAlign: "center" }}>
+        New to Meetup?{" "}
+        <span
+          onClick={() => navigate("/signup")}
+          style={{
+            color: "blue",
+            cursor: "pointer",
+            textDecoration: "underline",
+            fontWeight: "bold"
+          }}
+        >
+          Sign up here
+        </span>
+      </p>
+
     </div>
-  );
+  </div>
+);
 }
 
 export default Login;

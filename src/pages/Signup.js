@@ -1,35 +1,44 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Signup({ setIsLoggedIn, setPage }) {  
+function Signup() {
+  const navigate = useNavigate();
+
   const [full_name, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [pwd_hash, setPassword] = useState("");
   const [ph_number, setPhone] = useState("");
 
   const handleSignup = async () => {
-    const response = await fetch("http://localhost:8000/api/signup", {     //port changed to 8000 from 3000 || LOCALHOST is important 
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        full_name,
-        email,
-        pwd_hash,
-        ph_number,
-        role: "user",
-      }),
-    });
+    try {
+      const response = await fetch("http://localhost:8000/api/signup", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          full_name,
+          email,
+          pwd_hash,
+          ph_number,
+          role: "user",
+        }),
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      alert("Signup Successful! Please login.");
-      setIsLoggedIn(true);
-      setPage("dashboard");
-    } else {
-            alert("Signup failed: "+ JSON.stringify(data));
-  } };
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("Signup Successful! Please login.");
+        navigate("/login");
+      } else {
+        alert("Signup failed: " + JSON.stringify(data));
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Backend not running or signup API error");
+    }
+  };
 
   return (
     <div className="container">
@@ -40,6 +49,7 @@ function Signup({ setIsLoggedIn, setPage }) {
         placeholder="Full Name"
         onChange={(e) => setFullName(e.target.value)}
       />
+
       <br /><br />
 
       <input
@@ -47,6 +57,7 @@ function Signup({ setIsLoggedIn, setPage }) {
         placeholder="Email"
         onChange={(e) => setEmail(e.target.value)}
       />
+
       <br /><br />
 
       <input
@@ -54,6 +65,7 @@ function Signup({ setIsLoggedIn, setPage }) {
         placeholder="Password"
         onChange={(e) => setPassword(e.target.value)}
       />
+
       <br /><br />
 
       <input
@@ -61,10 +73,30 @@ function Signup({ setIsLoggedIn, setPage }) {
         placeholder="Phone Number"
         onChange={(e) => setPhone(e.target.value)}
       />
+
       <br /><br />
+
       <button className="form-button" onClick={handleSignup}>
         Signup
       </button>
+
+      <br /><br />
+
+    <p style={{ textAlign: "center" }}>
+        Already have an account?{" "}
+        <span
+          onClick={() => navigate("/login")}
+          style={{
+            color: "blue",
+            cursor: "pointer",
+            textDecoration: "underline",
+            fontWeight: "bold"
+          }}
+        >
+          Login here
+        </span>
+      </p>
+
     </div>
   );
 }
